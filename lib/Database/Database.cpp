@@ -24,7 +24,7 @@
 #include "llvm/Support/Path.h"
 #include "llvm/Support/raw_ostream.h"
 #if defined(_WIN32)
-#include "Windows.h"
+#include "windows.h"
 #endif
 
 #if defined(_WIN32)
