@@ -15,7 +15,7 @@
 #include "llvm/ADT/StringRef.h"
 #include "llvm/Support/ConvertUTF.h"
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 #else
 #include <dlfcn.h>
 #endif

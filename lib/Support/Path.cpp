@@ -17,7 +17,7 @@
 #include "llvm/Support/FileSystem.h"
 #include "llvm/Support/Mutex.h"
 #if defined(_WIN32)
-#include <Windows.h>
+#include <windows.h>
 #else
 #include <unistd.h>
 #endif
