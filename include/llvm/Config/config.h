@@ -162,7 +162,9 @@
 
 /* Define to 1 if you have the `posix_spawn' function. */
 #if !defined(LLVM_ON_WIN32)
+#if (!defined(__ANDROID__) || (__ANDROID_API__ >= 28))
 #define HAVE_POSIX_SPAWN 1
+#endif
 
 /* Define to 1 if you have the `pread' function. */
 #define HAVE_PREAD 1

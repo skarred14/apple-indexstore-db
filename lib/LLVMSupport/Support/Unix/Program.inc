@@ -219,7 +219,9 @@ static bool Execute(ProcessInfo &PI, StringRef Program,
       }
 
       FileActions = &FileActionsStore;
+    #if !defined(__ANDROID__) || (__ANDROID_API__ >= 28)
       posix_spawn_file_actions_init(FileActions);
+    #endif
 
       // Redirect stdin/stdout.
       if (RedirectIO_PS(RedirectsStr[0], 0, ErrMsg, FileActions) ||
@@ -230,10 +232,12 @@ static bool Execute(ProcessInfo &PI, StringRef Program,
         if (RedirectIO_PS(RedirectsStr[2], 2, ErrMsg, FileActions))
           return false;
       } else {
+      #if !defined(__ANDROID__) || (__ANDROID_API__ >= 28)
         // If stdout and stderr should go to the same place, redirect stderr
         // to the FD already open for stdout.
         if (int Err = posix_spawn_file_actions_adddup2(FileActions, 1, 2))
           return !MakeErrMsg(ErrMsg, "Can't redirect stderr to stdout", Err);
+      #endif
       }
     }
 
@@ -248,12 +252,16 @@ static bool Execute(ProcessInfo &PI, StringRef Program,
     // Explicitly initialized to prevent what appears to be a valgrind false
     // positive.
     pid_t PID = 0;
+  #if !defined(__ANDROID__) || (__ANDROID_API__ >= 28)
+    int Err = -1;
+  #else
     int Err = posix_spawn(&PID, Program.str().c_str(), FileActions,
                           /*attrp*/ nullptr, const_cast<char **>(Argv),
                           const_cast<char **>(Envp));
 
     if (FileActions)
       posix_spawn_file_actions_destroy(FileActions);
+  #endif
 
     if (Err)
      return !MakeErrMsg(ErrMsg, "posix_spawn failed", Err);
