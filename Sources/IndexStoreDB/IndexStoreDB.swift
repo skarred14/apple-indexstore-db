@@ -22,6 +22,8 @@ import ucrt
 import Darwin.POSIX
 #endif
 
+import Foundation
+
 /// IndexStoreDB index.
 public final class IndexStoreDB {
 
@@ -100,7 +102,7 @@ public final class IndexStoreDB {
   /// Only has an effect if `useExplicitOutputUnits` was set to true at initialization.
   public func addUnitOutFilePaths(_ paths: [String], waitForProcessing: Bool) {
     let cPaths: [UnsafePointer<CChar>] = paths.map { UnsafePointer($0.withCString(strdup)!) }
-    defer { for cPath in cPaths { free(UnsafeMutablePointer(mutating: cPath)) } }
+    defer { for cPath in cPaths { UnsafeMutablePointer(mutating: cPath)?.deallocate() } }
     return indexstoredb_index_add_unit_out_file_paths(impl, cPaths, cPaths.count, waitForProcessing)
   }
 
@@ -108,7 +110,7 @@ public final class IndexStoreDB {
   /// Only has an effect if `useExplicitOutputUnits` was set to true at initialization.
   public func removeUnitOutFilePaths(_ paths: [String], waitForProcessing: Bool) {
     let cPaths: [UnsafePointer<CChar>] = paths.map { UnsafePointer($0.withCString(strdup)!) }
-    defer { for cPath in cPaths { free(UnsafeMutablePointer(mutating: cPath)) } }
+    defer { for cPath in cPaths { UnsafeMutablePointer(mutating: cPath)?.deallocate() } }
     return indexstoredb_index_remove_unit_out_file_paths(impl, cPaths, cPaths.count, waitForProcessing)
   }
 
