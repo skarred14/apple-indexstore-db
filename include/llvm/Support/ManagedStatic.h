@@ -15,6 +15,7 @@
 
 #include "llvm/Config/indexstoredb-prefix.h"
 
+#include <stdlib.h>
 #include <atomic>
 #include <cstddef>
 

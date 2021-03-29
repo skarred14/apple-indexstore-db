@@ -18,6 +18,7 @@
 #include "llvm/Config/indexstoredb-prefix.h"
 
 #include <cstddef>
+#include <stdlib.h>
 
 namespace llvm {
 namespace sys {
