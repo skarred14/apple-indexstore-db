@@ -13,7 +13,7 @@
 #ifndef INDEXSTOREDB_SKDATABASE_IDCODE_H
 #define INDEXSTOREDB_SKDATABASE_IDCODE_H
 
-#include <cstdint>
+#include <stdint.h>
 #include <functional>
 #include <cstdint>
 
